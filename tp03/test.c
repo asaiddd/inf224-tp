@@ -7,7 +7,7 @@ int main(void)
 {
     char ch;
     int in, progState, userData;
-    struct splay_node *root;
+    struct splay_node *root = NULL;
 
     progState = CONTINUE;
 
@@ -15,6 +15,9 @@ int main(void)
 
     while (progState)
     {
+        userData = 0;
+        in = 0;
+
         printf("Chose one from above\n");
         scanf("%d", &in);
         getchar();
@@ -23,22 +26,26 @@ int main(void)
         switch (in)
         {
         case INSERT:
-            printf("Data?\n");
+            printf("What number you want to insert?\n");
             scanf("%d", &userData);
             getchar();
+            printf("Inserting %d\n", userData);
             root = insertNode(root, userData);
             break;
         case SEARCH:
-            printf("Data?\n");
+            printf("What number you want to search for?\n");
             scanf("%d", &userData);
             getchar();
+            printf("Searching for %d\n", userData);
             root = searchNode(root, userData);
             break;
         case DELETE:
             // deleteNode(NULL, 0);
             break;
         case PRINT:
+            printf("Printing the tree\n");
             printInOrder(root);
+            printf("Finished printing\n");
             break;
         case QUIT:
             progState = TERMINATE;

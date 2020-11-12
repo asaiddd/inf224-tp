@@ -33,6 +33,7 @@ struct splay_node
 struct splay_node *createNode(int data);
 struct splay_node *splay(struct splay_node *root, int data);
 struct splay_node *insertNode(struct splay_node *root, int data);
+struct splay_node *splayInsert(struct splay_node *root, int data);
 struct splay_node *deleteNode(struct splay_node *root, int data);
 struct splay_node *searchNode(struct splay_node *root, int data);
 struct splay_node *rotateLeft(struct splay_node *node);

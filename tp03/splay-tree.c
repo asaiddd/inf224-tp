@@ -69,18 +69,28 @@ struct splay_node *splay(struct splay_node *root, int data)
         if (data < root->leftChild->data)
         {
             root->leftChild->leftChild = splay(root->leftChild->leftChild, data); // recursive call that ensures left left child is now @left-left of root
-            return zigZigStep(root);
+            root = rotateRight(root);
+            // return zigZigStep(root);
         }
         else if (data < root->leftChild->data) // zag now
         {
             root->leftChild->rightChild = splay(root->leftChild->rightChild, data);
-            return zigZagStep(root);
+
+            if (!root->leftChild->rightChild)
+            {
+                root = rotateLeft(root->leftChild);
+            }
+            // return zigZagStep(root);
+        }
+
+        if (!root->leftChild)
+        {
+            return root;
         }
         else
         {
-            return zigStep(root);
+            return rotateRight(root);
         }
-
     }
     else // right subtree : zag
     {
@@ -94,16 +104,28 @@ struct splay_node *splay(struct splay_node *root, int data)
         if (data < root->rightChild->data)
         {
             root->rightChild->rightChild = splay(root->rightChild->rightChild, data);
-            return zagZagStep(root);
+            root = rotateLeft(root);
+            // return zagZagStep(root);
         }
         else if (data > root->rightChild->data) // zig now
         {
             root->rightChild->leftChild = splay(root->rightChild->leftChild, data);
-            return zagZigStep(root);
+
+            if (!root->rightChild->leftChild)
+            {
+                root->rightChild = rotateRight(root->rightChild);
+            }
+
+            // return zagZigStep(root);
+        }
+
+        if (!root->rightChild)
+        {
+            return root;
         }
         else
         {
-            return zagStep(root);
+            return rotateLeft(root);
         }
     }
 }
@@ -124,6 +146,12 @@ struct splay_node *insertNode(struct splay_node *root, int data)
         root->rightChild = insertNode(root->rightChild, data);
     }
 
+    return root;
+}
+
+struct splay_node *splayInsert(struct splay_node *root, int data)
+{
+    root = insertNode(root, data);
     return splay(root, data);
 }
 
