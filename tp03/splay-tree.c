@@ -49,6 +49,7 @@ struct splay_node *rotateRight(struct splay_node *node)
 
 struct splay_node *splay(struct splay_node *root, int data)
 {
+    // base case
     if ((!root) || (data == root->data))
     {
         return root;
@@ -66,8 +67,7 @@ struct splay_node *splay(struct splay_node *root, int data)
         if (data < root->leftChild->data)
         {
             root->leftChild->leftChild = splay(root->leftChild->leftChild, data); // recursive call that ensures left left child is now @left-left of root
-            root = rotateRight(root);
-            // return zigZigStep(root);
+            root = rotateRight(root); // de-zig
         }
         else if (data > root->leftChild->data) // zag now
         {
@@ -75,9 +75,8 @@ struct splay_node *splay(struct splay_node *root, int data)
 
             if (!root->leftChild->rightChild)
             {
-                root = rotateLeft(root->leftChild);
+                root = rotateLeft(root->leftChild); // de-zag
             }
-            // return zigZagStep(root);
         }
 
         if (!root->leftChild)
@@ -86,7 +85,7 @@ struct splay_node *splay(struct splay_node *root, int data)
         }
         else
         {
-            return rotateRight(root);
+            return rotateRight(root); // de-zig
         }
     }
     else // right subtree : zag
@@ -101,8 +100,7 @@ struct splay_node *splay(struct splay_node *root, int data)
         if (data > root->rightChild->data)
         {
             root->rightChild->rightChild = splay(root->rightChild->rightChild, data);
-            root = rotateLeft(root);
-            // return zagZagStep(root);
+            root = rotateLeft(root); // de-zag
         }
         else if (data < root->rightChild->data) // zig now
         {
@@ -110,10 +108,8 @@ struct splay_node *splay(struct splay_node *root, int data)
 
             if (!root->rightChild->leftChild)
             {
-                root->rightChild = rotateRight(root->rightChild);
+                root->rightChild = rotateRight(root->rightChild); // de-zig
             }
-
-            // return zagZigStep(root);
         }
 
         if (!root->rightChild)
@@ -122,7 +118,7 @@ struct splay_node *splay(struct splay_node *root, int data)
         }
         else
         {
-            return rotateLeft(root);
+            return rotateLeft(root); // de-zag
         }
     }
 }
@@ -158,49 +154,6 @@ struct splay_node *deleteNode(struct splay_node *root, int data)
 struct splay_node *searchNode(struct splay_node *root, int data)
 {
     return splay(root, data);
-}
-
-struct splay_node *zigStep(struct splay_node *parent)
-{
-    if (!parent->leftChild)
-    {
-        return parent;
-    }
-
-    return rotateRight(parent);
-}
-
-struct splay_node *zagStep(struct splay_node *parent)
-{
-    if (!parent->rightChild)
-    {
-        return parent;
-    }
-
-    return rotateLeft(parent);
-}
-
-struct splay_node *zigZagStep(struct splay_node *grandParent)
-{
-    grandParent->rightChild = zigStep(grandParent->rightChild);
-    return zagStep(grandParent);
-}
-
-struct splay_node *zagZigStep(struct splay_node *grandParent)
-{
-    grandParent->leftChild = zagStep(grandParent->leftChild);
-    return zigStep(grandParent);
-}
-
-struct splay_node *zigZigStep(struct splay_node *grandParent)
-{
-    grandParent->rightChild = zigStep(grandParent->leftChild);
-    return zigStep(grandParent);
-}
-struct splay_node *zagZagStep(struct splay_node *grandParent)
-{
-    grandParent->rightChild = zagStep(grandParent->rightChild);
-    return zagStep(grandParent);
 }
 
 // postorder print function from tp02 & tp03
