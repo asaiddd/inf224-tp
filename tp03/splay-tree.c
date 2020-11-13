@@ -148,8 +148,66 @@ struct splay_node *splayInsert(struct splay_node *root, int data)
     return splay(root, data);
 }
 
+// binary search tree delete node function - tp02
 struct splay_node *deleteNode(struct splay_node *root, int data)
-{return NULL;}
+{
+    struct splay_node *temp;
+
+    if (!root)
+    {
+        printf("Could not find the %d\n", data);
+        return root;
+    }
+
+    if (data < root->data)
+    {
+        root->leftChild = deleteNode(root->leftChild, data);
+    }
+    else if (data > root->data)
+    {
+        root->rightChild = deleteNode(root->rightChild, data);
+    }
+    else
+    {
+        if (!(root->leftChild))
+        {
+            temp = root->rightChild;
+            free(root);
+            return temp;
+        }
+        else if (!(root->rightChild))
+        {
+            temp = root->leftChild;
+            free(root);
+            return temp;
+        }
+
+        temp = findMin(root->rightChild);
+
+        root->data = temp->data;
+
+        root->rightChild = deleteNode(root->rightChild, temp->data);
+    }
+    return root;
+}
+
+struct splay_node *findMin(struct splay_node *root)
+{
+    if (!root)
+    {
+        printf("Tree is empty\n");
+        return NULL;
+    }
+
+    if (!root->leftChild)
+    {
+        return root;
+    }
+    else
+    {
+        return findMin(root->leftChild);
+    }
+}
 
 struct splay_node *searchNode(struct splay_node *root, int data)
 {
@@ -173,10 +231,17 @@ void printLevelOrder(struct splay_node *root)
 {
     int i, h;
 
+    if (!root)
+    {
+        printf("Tree is empty, please insert elements first\n");
+    }
+
     h = height(root);
 
     for (i = 1; i <= h ; i++)
+    {
         printGivenLevel(root, i);
+    }
 }
 
 void printGivenLevel(struct splay_node *root, int level)

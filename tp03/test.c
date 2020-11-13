@@ -40,7 +40,11 @@ int main(void)
             root = searchNode(root, userData);
             break;
         case DELETE:
-            // deleteNode(NULL, 0);
+            printf("What number you want to delete?\n");
+            scanf("%d", &userData);
+            getchar();
+            printf("Deleting %d\n", userData);
+            root = deleteNode(root, userData);
             break;
         case PRINT:
             printf("Printing the tree\n");

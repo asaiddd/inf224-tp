@@ -48,5 +48,6 @@ void printPostOrder(struct splay_node *root); // postorder print function from t
 void printLevelOrder(struct splay_node *root); // level order print function
 void printGivenLevel(struct splay_node *root, int level); // helper fnc for printLevelOrder
 int height(struct splay_node *node); // helper fnc for printLevelOrder
+struct splay_node *findMin(struct splay_node *root); // helper fnc for delete Node
 
 #endif /* __SPLAY_TREE_H__ */
