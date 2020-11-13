@@ -30,7 +30,7 @@ int main(void)
             scanf("%d", &userData);
             getchar();
             printf("Inserting %d\n", userData);
-            root = insertNode(root, userData);
+            root = splayInsert(root, userData);
             break;
         case SEARCH:
             printf("What number you want to search for?\n");
@@ -44,7 +44,7 @@ int main(void)
             break;
         case PRINT:
             printf("Printing the tree\n");
-            printInOrder(root);
+            printLevelOrder(root);
             printf("Finished printing\n");
             break;
         case QUIT:

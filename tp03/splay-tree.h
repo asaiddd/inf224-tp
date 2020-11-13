@@ -44,6 +44,9 @@ struct splay_node *zigZagStep(struct splay_node *grandParent); // parent is !roo
 struct splay_node *zagZigStep(struct splay_node *grandParent); // parent is !root, element to change is right child of parent, parent is left child of grand-parent
 struct splay_node *zigZigStep(struct splay_node *grandParent); // parent is !root, element to change is left child of parent, parent is left child of grand-parent
 struct splay_node *zagZagStep(struct splay_node *grandParent); // parent is !root, element to change is right child of parent, parent is right child of grand-parent
-void printInOrder(struct splay_node *root);// inorder print function from tp02
+void printPostOrder(struct splay_node *root); // postorder print function from tp02
+void printLevelOrder(struct splay_node *root); // level order print function
+void printGivenLevel(struct splay_node *root, int level); // helper fnc for printLevelOrder
+int height(struct splay_node *node); // helper fnc for printLevelOrder
 
 #endif /* __SPLAY_TREE_H__ */

@@ -25,13 +25,11 @@ struct splay_node *createNode(int data)
 // rotates the subtree called node, to the left - got from tp03
 struct splay_node *rotateLeft(struct splay_node *node)
 {
-    struct splay_node *newRoot, *leftChild;
+    struct splay_node *newRoot;
 
     newRoot = node->rightChild;
-    leftChild = newRoot->leftChild;
-
+    node->rightChild = newRoot->leftChild;
     newRoot->leftChild = node;
-    node->rightChild = leftChild;
 
     return newRoot;
 }
@@ -39,13 +37,12 @@ struct splay_node *rotateLeft(struct splay_node *node)
 // rotates the subtree called node, to the right - got from tp03
 struct splay_node *rotateRight(struct splay_node *node)
 {
-    struct splay_node *newRoot, *rightChild, *parentTmp;
+    struct splay_node *newRoot;
 
     newRoot = node->leftChild;
-    rightChild = newRoot->rightChild;
+    node->leftChild = newRoot->rightChild;
 
     newRoot->rightChild = node;
-    node->leftChild = rightChild;
 
     return newRoot;
 }
@@ -72,7 +69,7 @@ struct splay_node *splay(struct splay_node *root, int data)
             root = rotateRight(root);
             // return zigZigStep(root);
         }
-        else if (data < root->leftChild->data) // zag now
+        else if (data > root->leftChild->data) // zag now
         {
             root->leftChild->rightChild = splay(root->leftChild->rightChild, data);
 
@@ -101,13 +98,13 @@ struct splay_node *splay(struct splay_node *root, int data)
         }
 
         // zag again
-        if (data < root->rightChild->data)
+        if (data > root->rightChild->data)
         {
             root->rightChild->rightChild = splay(root->rightChild->rightChild, data);
             root = rotateLeft(root);
             // return zagZagStep(root);
         }
-        else if (data > root->rightChild->data) // zig now
+        else if (data < root->rightChild->data) // zig now
         {
             root->rightChild->leftChild = splay(root->rightChild->leftChild, data);
 
@@ -206,15 +203,65 @@ struct splay_node *zagZagStep(struct splay_node *grandParent)
     return zagStep(grandParent);
 }
 
-// inorder print function from tp02 & tp03
-void printInOrder(struct splay_node *node)
+// postorder print function from tp02 & tp03
+void printPostOrder(struct splay_node *node)
 {
     if (!node)
     {
         return;
     }
 
-    printInOrder(node->leftChild);
+    printPostOrder(node->leftChild);
+    printPostOrder(node->rightChild);
     printf("%d\n", node->data);
-    printInOrder(node->rightChild);
+}
+
+void printLevelOrder(struct splay_node *root)
+{
+    int i, h;
+
+    h = height(root);
+
+    for (i = 1; i <= h ; i++)
+        printGivenLevel(root, i);
+}
+
+void printGivenLevel(struct splay_node *root, int level)
+{
+    if (!root)
+    {
+        return;
+    }
+    if (level == 1)
+    {
+        printf("%d\n", root->data);
+    }
+    else if (level > 1)
+    {
+        printGivenLevel(root->leftChild, level - 1);
+        printGivenLevel(root->rightChild, level -1);
+    }
+}
+
+int height(struct splay_node *node)
+{
+    int leftHeight, rightHeight;
+    if (!node)
+    {
+        return 0;
+    }
+    else
+    {
+        leftHeight = height(node->leftChild);
+        rightHeight = height(node->rightChild);
+
+        if (leftHeight > rightHeight)
+        {
+            return(leftHeight + 1);
+        }
+        else
+        {
+            return(rightHeight + 1);
+        }
+    }
 }
