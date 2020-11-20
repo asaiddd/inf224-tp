@@ -38,12 +38,6 @@ struct splay_node *deleteNode(struct splay_node *root, int data);
 struct splay_node *searchNode(struct splay_node *root, int data);
 struct splay_node *rotateLeft(struct splay_node *node);
 struct splay_node *rotateRight(struct splay_node *node);
-struct splay_node *zigStep(struct splay_node *parent); // parent is root, element to change is left child of root
-struct splay_node *zagStep(struct splay_node *parent); // parent is root, element to change is right child of root
-struct splay_node *zigZagStep(struct splay_node *grandParent); // parent is !root, element to change is left child of parent, parent is right child of grand-parent
-struct splay_node *zagZigStep(struct splay_node *grandParent); // parent is !root, element to change is right child of parent, parent is left child of grand-parent
-struct splay_node *zigZigStep(struct splay_node *grandParent); // parent is !root, element to change is left child of parent, parent is left child of grand-parent
-struct splay_node *zagZagStep(struct splay_node *grandParent); // parent is !root, element to change is right child of parent, parent is right child of grand-parent
 void printPostOrder(struct splay_node *root); // postorder print function from tp02
 void printLevelOrder(struct splay_node *root); // level order print function
 void printGivenLevel(struct splay_node *root, int level); // helper fnc for printLevelOrder
